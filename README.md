@@ -20,8 +20,8 @@ Se da soporte para pantalla completa presionando la tecla f, durante su ejecuci�
 
 El programa permite algunas opciones configurables al iniciarse mediante argumentos en la línea de comandos:
 
-      -c:       Permite especificar el color de los caracteres. Por defecto, es verde.
-      -v:       Permite ajustar la velocidad de la animación en fotogramas por segundo (FPS). Por defecto, es 15 FPS.
+      -c        Permite especificar el color de los caracteres. Por defecto, es verde.
+      -v        Permite ajustar la velocidad de la animación en fotogramas por segundo (FPS). Por defecto, es 15 FPS.
       -f        Inicia pantalla completa, para quitar la pantalla completa presionar f"
 
 Ejemplo:
