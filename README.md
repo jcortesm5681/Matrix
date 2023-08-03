@@ -10,10 +10,12 @@ Este código crea un interesante efecto de caída de caracteres en cascada inspi
 
 Se da soporte para pantalla completa presionando la tecla f, durante su ejecución, otras opciones de personalización durante la ejecución son:
 
-
-       f       para alternar entre pantalla completa o ventana
-       q       para salir
-       r,g,b,a para cambiar color r:Rojo, g:Verde, b:Azul, a:Ambar
+        f        para alternar entre pantalla completa o ventana
+        q        para salir
+        +        para aumentar la velocidad
+        -        para disminuir la velocidad
+        r,g,b,a  para cambiar color r:Rojo, g:Verde, b:Azul, a:Ambar
+       
 
 
 El programa permite algunas opciones configurables al iniciarse mediante argumentos en la línea de comandos:
