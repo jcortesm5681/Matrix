@@ -7,7 +7,8 @@ import sys
 ######################
 # Dimensiones de la ventana
 ANCHO, ALTO = 800, 600
-
+# Constante para la pantalla completa
+pantalla_completa = False
 #FPS 
 LaVelocidad=15
 
@@ -56,16 +57,27 @@ else:
             #print('x =',sys.argv)
             LaVelocidad =int(sys.argv[y])
             #print('veloc =',LaVelocidad)
+        elif  n=="-f":
+            pantalla_completa = True
+
         elif  n=="--help" :
             print("Modo de empleo:  [opciones]...")
             print("")           
             print("Programa de consola que genera una pantalla tipo matrix, Para eso utiliza la fuente \"Matrix Code NFI\"; la cual hay que instalar en el sistema.")
             print("")
-            print("Las siguientes opciones activan una cuenta regresiva:")
+            print("Las siguientes son las opciones:")
             print("-c   Color de los caracteres, por defecto es VERDE")
             print("-v   Velocidad de la animacion por defecto 15 FPS")
+            print("-f   Inicia pantalla completa, para quitar la pantalla completa presionar f")
             print("")
-            print("Ejemplo:")
+            print("")
+            print("DURANTE LA EJECUCION")
+            print("presionar") 
+            print(" f para alternar entre pantalla completa o ventana")
+            print(" q para alternar salir")
+            print(" r,g,b,a para cambiar color r:Rojo, g:Verde, b:Azul, a:Ambar")
+            print("")
+            print("Ejemplo para iniciar:")
             print("")
             print("matrix -c \"#ff7e00\" 5 -v 10")
             print("Efecto matrix con caracteres color AMBAR y velocidad de 5 FPS")
@@ -82,7 +94,18 @@ else:
 # Configuracin de la pantalla#
 ##############################
 pygame.init()
-ventana = pygame.display.set_mode((ANCHO, ALTO))
+#ventana = pygame.display.set_mode((ANCHO, ALTO))
+if pantalla_completa:
+    ventana = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    info = pygame.display.Info()
+    ANCHO = info.current_w
+    ALTO = info.current_h
+    TotalColumnas= ANCHO // 20
+    ypos =[random.randint(-100,200) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
+    ind = 0  #  contador  inicia en 0
+else:
+    ventana = pygame.display.set_mode((ANCHO, ALTO))
+
 pygame.display.set_caption("Efecto Matrix")
 reloj = pygame.time.Clock()
 # Definicin de la fuente y tamao del texto
@@ -96,6 +119,43 @@ while not terminado:
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             terminado = True
+        elif evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_a:
+                # Si se presiona la tecla "a"; cambiar color a ambar
+                Elcolor=(255,126, 0)
+            if evento.key == pygame.K_r:
+                # Si se presiona la tecla "r"; cambiar color a rojo
+                Elcolor=(255, 0, 0) 
+            if evento.key == pygame.K_g:
+                # Si se presiona la tecla "r"; cambiar color a verde
+                Elcolor=(0, 255, 0) 
+            if evento.key == pygame.K_b:
+                # Si se presiona la tecla "b"; cambiar color a azul
+                Elcolor=(0, 0,255) 
+            if evento.key == pygame.K_q:
+                 # Si se presiona la tecla "q"; terminar programa
+                 terminado = True
+            if evento.key == pygame.K_f:
+                # Si se presiona la tecla "f", alternamos entre pantalla completa y ventana
+                pantalla_completa = not pantalla_completa
+                if pantalla_completa:
+                    ventana = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                    info = pygame.display.Info()
+                    # Lee los nuevos valores de alto y ancho de la pantalla completa
+                    ANCHO = info.current_w
+                    ALTO = info.current_h
+                    # Lista para almacenar las posiciones Y de cada columna
+                    TotalColumnas= ANCHO // 20
+
+                    ypos =[random.randint(-100,200) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
+                    ind = 0  #  contador  inicia en 0
+                else:
+                    ANCHO, ALTO = 800, 600
+                    ventana = pygame.display.set_mode((ANCHO, ALTO))
+                    TotalColumnas= ANCHO // 20
+
+                    ypos =[random.randint(-100,200) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
+                    ind = 0  #  contador  inicia en 0
     # Actualizar la posicion de los caracteres en cada columna
     for y in ypos:
 
@@ -109,7 +169,7 @@ while not terminado:
         s.set_alpha(50)                # nivel alpha
         s.fill(NEGRO)           # llena el cuadrado de color negro RGB(0,0,0)
         ventana.blit(s, (x,y-ALTO))    # coordenadas donde inicia el cuadrado alpha, le quito un poco de altura se ve mejor
-       
+        #print(ALTO)
         #Pinto un cuadro en negro para borrar el caracter blanco de inicio de columna
         s = pygame.Surface((20,20))  # tamano del cuadro
         #s.set_alpha(200)                # nivel alpha
@@ -150,5 +210,4 @@ while not terminado:
     reloj.tick(LaVelocidad)
 
 pygame.quit()
-
 
