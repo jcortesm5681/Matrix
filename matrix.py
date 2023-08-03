@@ -74,7 +74,9 @@ else:
             print("DURANTE LA EJECUCION")
             print("presionar") 
             print(" f para alternar entre pantalla completa o ventana")
-            print(" q para alternar salir")
+            print(" q para salir")
+            print(" + para aumentar la velocidad")
+            print(" - para disminuir la velocidad")
             print(" r,g,b,a para cambiar color r:Rojo, g:Verde, b:Azul, a:Ambar")
             print("")
             print("Ejemplo para iniciar:")
@@ -120,6 +122,11 @@ while not terminado:
         if evento.type == pygame.QUIT:
             terminado = True
         elif evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_PLUS or evento.key == pygame.K_KP_PLUS:
+                LaVelocidad=LaVelocidad+10
+            if evento.key == pygame.K_MINUS or evento.key == pygame.K_KP_MINUS:
+                LaVelocidad=LaVelocidad-10
+                if LaVelocidad <= 5: LaVelocidad= 5
             if evento.key == pygame.K_a:
                 # Si se presiona la tecla "a"; cambiar color a ambar
                 Elcolor=(255,126, 0)
@@ -132,7 +139,7 @@ while not terminado:
             if evento.key == pygame.K_b:
                 # Si se presiona la tecla "b"; cambiar color a azul
                 Elcolor=(0, 0,255) 
-            if evento.key == pygame.K_q:
+            if evento.key == pygame.K_q or evento.key == pygame.K_ESCAPE:
                  # Si se presiona la tecla "q"; terminar programa
                  terminado = True
             if evento.key == pygame.K_f:
