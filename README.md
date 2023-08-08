@@ -28,12 +28,12 @@ Ejemplo:
 
       matrix
 Efecto matrix con caracteres color VERDE y velocidad de 15 FPS
-![Descripción de la imagen](/imgMatrix.png)
+![Descripción de la imagen](img/imgMatrix.png)
 
 
 
       matrix -c "#ff7e00" 5 -v 10
 
 Efecto matrix con caracteres color AMBAR y velocidad de 10 FPS
-![Descripción de la imagen](/imgMatrix2.png)
+![Descripción de la imagen](img/imgMatrix2.png)
 
