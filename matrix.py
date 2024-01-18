@@ -10,11 +10,12 @@ ANCHO, ALTO = 800, 600
 # Constante para la pantalla completa
 pantalla_completa = False
 #FPS 
-LaVelocidad=15
+LaVelocidad=5
 
 
 # Colores
-Elcolor=(0, 255, 0) # Por defecto seraa verde
+#Elcolor=(0, 255, 0) # Por defecto seraa verde
+Elcolor=(255,126, 0)# Por defecto seraa ambar
 NEGRO = (0, 0, 0)
 BLANCO= (255,255, 255)
 #VERDE = (0, 255, 0)
@@ -23,14 +24,30 @@ BLANCO= (255,255, 255)
 #AZUL = (184,202,212)
 
 # Lista de caracteres que caeran en la pantalla
-caracteres = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*()-_=+[]{}|;:'<>,.?/~`"
-caracteres = list(caracteres)
+#caracteres = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*()-_=+[]{}|;:'<>,.?/~`"
+#caracteres = list(caracteres)
+ruta_archivo = "D:\\Banco Datos\\Documentos\\GitJac\\Matrix\\poesi\\poe.txt"
+
+# Leer el contenido del archivo
+with open(ruta_archivo, 'r', encoding='utf-8') as file:
+    contenido = file.read() 
+
+# Dividir el contenido por el carácter "|"
+arreglo_resultante = contenido.split('|')
+
+# Imprimir el arreglo resultante
+#print(arreglo_resultante)
+caracteres= random.choice(arreglo_resultante)
+largo= len(caracteres)
+cuantos=0
+
+#print(caracteres)
 
 
 # Lista para almacenar las posiciones Y de cada columna
 TotalColumnas= ANCHO // 20
 
-ypos =[random.randint(-100,200) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
+ypos =[random.randint(-100,ALTO) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
 ind = 0  #  contador  inicia en 0
 
 #########################
@@ -41,7 +58,7 @@ if len(sys.argv) == 1:
     #t.color(col) 
     #clockjac()
     Elcolor=(0, 255, 0)
-    LaVelocidad=15
+    LaVelocidad=5
 else:
     for n in sys.argv:
         #print('n'+ n)
@@ -67,7 +84,7 @@ else:
             print("")
             print("Las siguientes son las opciones:")
             print("-c   Color de los caracteres, por defecto es VERDE")
-            print("-v   Velocidad de la animacion por defecto 15 FPS")
+            print("-v   Velocidad de la animacion por defecto 5 FPS")
             print("-f   Inicia pantalla completa, para quitar la pantalla completa presionar f")
             print("")
             print("")
@@ -103,7 +120,7 @@ if pantalla_completa:
     ANCHO = info.current_w
     ALTO = info.current_h
     TotalColumnas= ANCHO // 20
-    ypos =[random.randint(-100,200) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
+    ypos =[random.randint(-100,ALTO) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
     ind = 0  #  contador  inicia en 0
 else:
     ventana = pygame.display.set_mode((ANCHO, ALTO))
@@ -117,6 +134,7 @@ fuente = pygame.font.SysFont("Matrix Code NFI", 20)
 #       Bucle principal     #
 #############################
 terminado = False
+cual=0
 while not terminado:
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
@@ -155,20 +173,29 @@ while not terminado:
                     # Lista para almacenar las posiciones Y de cada columna
                     TotalColumnas= ANCHO // 20
 
-                    ypos =[random.randint(-100,200) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
+                    ypos =[random.randint(-100,ALTO) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
                     ind = 0  #  contador  inicia en 0
                 else:
                     ANCHO, ALTO = 800, 600
                     ventana = pygame.display.set_mode((ANCHO, ALTO))
                     TotalColumnas= ANCHO // 20
 
-                    ypos =[random.randint(-100,200) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
+                    ypos =[random.randint(-100,ALTO) for _ in range(TotalColumnas)] ## arreglo que guarla las posiciones y de todas las columnas
                     ind = 0  #  contador  inicia en 0
     # Actualizar la posicion de los caracteres en cada columna
     for y in ypos:
 
         x = ind * 20 # La posicion x depende del contador ind
-        c=random.choice(caracteres) # se escoje aleatoriamente un caracter
+        #c=random.choice(caracteres) # se escoje aleatoriamente un caracter
+        if cual >= largo-1 :
+            cual=0
+        else:
+            cual=cual+1
+            
+        c=caracteres[cual]
+        #print(largo)
+        #print(cual)
+        #print(c)
         #c = str(x/10) + "," +str(y/10)
         #print (x , y, c, ind)        
 
@@ -178,9 +205,8 @@ while not terminado:
         s.fill(NEGRO)           # llena el cuadrado de color negro RGB(0,0,0)
         ventana.blit(s, (x,y-ALTO))    # coordenadas donde inicia el cuadrado alpha, le quito un poco de altura se ve mejor
         #print(ALTO)
-        #Pinto un cuadro en negro para borrar el caracter blanco de inicio de columna
+        ##Pinto un cuadro en negro para borrar el caracter blanco de inicio de columna
         s = pygame.Surface((20,20))  # tamano del cuadro
-        #s.set_alpha(200)                # nivel alpha
         s.fill(NEGRO)           # llena el cuadrado de color negro RGB(0,0,0)
         ventana.blit(s, (x,y))    #
        
@@ -196,13 +222,17 @@ while not terminado:
         s.fill(NEGRO)           # llena el cuadrado de color negro RGB(0,0,0)
         ventana.blit(s, (x,y+20))    # coordenadas donde inicia el cuadrado alpha, le quito un poco de altura se ve mejor
              
-        if y > 100 + random.randint(1, 5000): # si la altura es mayor de 100, aleatoriamente puede volver a iniciar, es decir volver a la linea superior
-            ypos[ind] = 0
+        if y > 100 + random.randint(1, 5000) or y >= ALTO: # si la altura es mayor de 100, aleatoriamente puede volver a iniciar, es decir volver a la linea superior
+            ypos[ind] =  ypos[ind]-500
         else:        
-          #Pinto caracter blanco el inicio de la columna
-            caracter2 = fuente.render(c, False, BLANCO) # pinta caracter en BLANCO
+            ##Pinto caracter blanco el inicio de la columna
+            c2 = "0123456789abcdefghijklmnopqrstuvwxyz"
+            c2 = list(c2)
+            c2= random.choice(c2)
+            caracter2 = fuente.render(c2, False, BLANCO) # pinta caracter en BLANCO aleatorio
             ventana.blit(caracter2, (x , y+20)) # pinta caracter en color verde
             ypos[ind] = y + 20 # en caso contrario salte a una nueva linea hacia abajo 
+            
            
        
         if ind < TotalColumnas-1: # control de la variable indicador, no debe pasarse del total de columnas
